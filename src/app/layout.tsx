@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import Footer from "../app/components/Footer";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -9,8 +10,7 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "David's Tech Reviews",
-  description:
-    "Honest reviews of laptops, gadgets, and software for students and professionals.",
+  description: "Honest reviews of laptops, gadgets, and software.",
 };
 
 export default function RootLayout({
@@ -21,7 +21,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} font-sans antialiased`}>
-        {children}
+        <div className="min-h-screen flex flex-col">
+          <main className="flex-grow">{children}</main>
+          <Footer />
+        </div>
       </body>
     </html>
   );
