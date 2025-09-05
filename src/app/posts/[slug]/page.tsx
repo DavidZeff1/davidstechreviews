@@ -9,6 +9,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import TopPick from "@/app/components/TopPick";
 export const dynamicParams = false;
+import AffiliateLink from "@/app/components/AffiliateLink";
 
 export function generateStaticParams(): { slug: string }[] {
   const postsDir = path.join(process.cwd(), "content/posts");
@@ -98,7 +99,10 @@ export default async function PostPage({ params }: PostProps) {
   const filePath = path.join(postsDir, `${slug}.mdx`);
   const fileContents = fs.readFileSync(filePath, "utf8");
   const { data, content } = matter(fileContents);
-  const mdxComponents = { TopPick };
+  const mdxComponents = {
+    TopPick,
+    AffiliateLink, // now MDX can use it
+  };
   return (
     <main className="mx-auto max-w-3xl px-6 py-16">
       {data.image && (

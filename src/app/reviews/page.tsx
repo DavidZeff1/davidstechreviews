@@ -25,7 +25,11 @@ export default function ReviewsPage() {
         date: data.date as string,
       };
     })
-    .filter((post) => post.title.toLowerCase().includes("best"));
+    .filter(
+      (post) =>
+        typeof post.title === "string" &&
+        post.title.toLowerCase().includes("best")
+    );
 
   return (
     <main className="mx-auto max-w-3xl px-6 py-16">
