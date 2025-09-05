@@ -7,9 +7,12 @@ export default function Footer() {
         <strong>Affiliate Disclosure:</strong> As an Amazon Associate, I earn
         from qualifying purchases. This site may contain affiliate links.
       </p>
-      <p className="mt-2">
+      <p className="mt-2 space-x-4">
         <Link href="/disclaimer" className="underline hover:text-gray-700">
-          Read full Disclaimer
+          Disclaimer
+        </Link>
+        <Link href="/privacy-policy" className="underline hover:text-gray-700">
+          Privacy Policy
         </Link>
       </p>
     </footer>
