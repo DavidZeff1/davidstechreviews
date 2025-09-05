@@ -1,9 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import SmoothLink from "./SmoothLink"; // Import your SmoothLink component
 
 const LINKS = [
   { href: "/", label: "Home" },
@@ -46,7 +46,7 @@ export default function Navbar() {
     >
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3">
         {/* Left: Logo */}
-        <Link href="/" className="flex items-center gap-3">
+        <SmoothLink href="/" className="flex items-center gap-3">
           <Image
             src="/logo.png"
             alt="David's Tech Reviews logo"
@@ -56,16 +56,16 @@ export default function Navbar() {
             priority
           />
           <span className="sr-only">David&apos;s Tech Reviews</span>
-        </Link>
+        </SmoothLink>
 
         {/* Desktop links */}
         <div className="hidden items-center gap-6 md:flex">
           {LINKS.map(({ href, label }) => (
-            <Link
+            <SmoothLink
               key={href}
               href={href}
               className={[
-                "text-sm font-medium transition-colors",
+                "text-sm font-medium transition-colors hover:scale-105 transform duration-200",
                 "hover:text-blue-600",
                 isActive(href)
                   ? "text-blue-600"
@@ -73,19 +73,19 @@ export default function Navbar() {
               ].join(" ")}
             >
               {label}
-            </Link>
+            </SmoothLink>
           ))}
-          <Link
+          <SmoothLink
             href="/reviews"
-            className="rounded-xl bg-gray-900 px-3 py-2 text-sm font-semibold text-white transition hover:opacity-90 dark:bg-white dark:text-black"
+            className="rounded-xl bg-gray-900 px-3 py-2 text-sm font-semibold text-white transition hover:opacity-90 hover:scale-105 transform duration-200 dark:bg-white dark:text-black"
           >
             Browse Reviews
-          </Link>
+          </SmoothLink>
         </div>
 
         {/* Mobile menu button */}
         <button
-          className="relative z-50 inline-flex h-10 w-10 items-center justify-center rounded-md border md:hidden"
+          className="relative z-50 inline-flex h-10 w-10 items-center justify-center rounded-md border md:hidden transition-transform hover:scale-105"
           aria-label="Toggle menu"
           onClick={() => setOpen((v) => !v)}
         >
@@ -93,19 +93,19 @@ export default function Navbar() {
           <div className="space-y-1.5">
             <span
               className={[
-                "block h-0.5 w-5 bg-current transition",
+                "block h-0.5 w-5 bg-current transition-all duration-300",
                 open ? "translate-y-2 rotate-45" : "",
               ].join(" ")}
             />
             <span
               className={[
-                "block h-0.5 w-5 bg-current transition",
+                "block h-0.5 w-5 bg-current transition-all duration-300",
                 open ? "opacity-0" : "opacity-100",
               ].join(" ")}
             />
             <span
               className={[
-                "block h-0.5 w-5 bg-current transition",
+                "block h-0.5 w-5 bg-current transition-all duration-300",
                 open ? "-translate-y-2 -rotate-45" : "",
               ].join(" ")}
             />
@@ -122,26 +122,26 @@ export default function Navbar() {
       >
         <div className="mx-auto flex max-w-6xl flex-col gap-2 px-6 pb-4">
           {LINKS.map(({ href, label }) => (
-            <Link
+            <SmoothLink
               key={href}
               href={href}
               className={[
-                "rounded-lg px-3 py-2 text-sm font-medium transition",
-                "hover:bg-gray-100 dark:hover:bg-white/10",
+                "rounded-lg px-3 py-2 text-sm font-medium transition-all duration-200",
+                "hover:bg-gray-100 dark:hover:bg-white/10 hover:scale-105 transform",
                 isActive(href)
                   ? "text-blue-600"
                   : "text-gray-800 dark:text-gray-200",
               ].join(" ")}
             >
               {label}
-            </Link>
+            </SmoothLink>
           ))}
-          <Link
+          <SmoothLink
             href="/reviews"
-            className="mt-2 rounded-lg bg-gray-900 px-3 py-2 text-center text-sm font-semibold text-white transition hover:opacity-90 dark:bg-white dark:text-black"
+            className="mt-2 rounded-lg bg-gray-900 px-3 py-2 text-center text-sm font-semibold text-white transition-all duration-200 hover:opacity-90 hover:scale-105 transform dark:bg-white dark:text-black"
           >
             Browse Reviews
-          </Link>
+          </SmoothLink>
         </div>
       </div>
 

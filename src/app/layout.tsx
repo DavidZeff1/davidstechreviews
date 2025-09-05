@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "../app/components/Navbar";
 import Footer from "../app/components/Footer";
+import LoadingProvider from "../app/components/LoadingProvider"; // Add this import
 
 const inter = Inter({
   subsets: ["latin"],
@@ -57,12 +58,21 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        {/* Add NProgress CSS */}
+        <link
+          rel="stylesheet"
+          href="https://unpkg.com/nprogress@0.2.0/nprogress.css"
+        />
+      </head>
       <body className={`${inter.variable} font-sans antialiased`}>
-        <div className="min-h-screen flex flex-col">
-          <Navbar />
-          <main className="flex-grow">{children}</main>
-          <Footer />
-        </div>
+        <LoadingProvider>
+          <div className="min-h-screen flex flex-col">
+            <Navbar />
+            <main className="flex-grow">{children}</main>
+            <Footer />
+          </div>
+        </LoadingProvider>
       </body>
     </html>
   );
