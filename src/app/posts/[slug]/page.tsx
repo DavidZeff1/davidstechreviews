@@ -101,7 +101,7 @@ export default async function PostPage({ params }: PostProps) {
   const { data, content } = matter(fileContents);
   const mdxComponents = {
     TopPick,
-    AffiliateLink, // now MDX can use it
+    AffiliateLink,
   };
   return (
     <main className="mx-auto max-w-3xl px-6 py-16">
