@@ -61,3 +61,47 @@ body {
   font-style: italic;
   margin: 1em 0;
 }
+
+/* Animated gradient background + floating blobs */
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+@keyframes blobFloat {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(30px, -20px) scale(1.05);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.98);
+  }
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+}
+.hero-animated-bg {
+  background: linear-gradient(120deg, #e0f2fe, #e9d5ff, #ffe4e6, #dcfce7);
+  background-size: 400% 400%;
+  animation: gradientShift 14s ease infinite;
+}
+.hero-blob {
+  filter: blur(40px);
+  opacity: 0.45;
+  animation: blobFloat 12s ease-in-out infinite;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

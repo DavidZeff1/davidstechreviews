@@ -4,6 +4,7 @@ import matter from "gray-matter";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import remarkGfm from "remark-gfm";
 import type { Metadata } from "next";
+import Image from "next/image";
 
 interface PostProps {
   params: { slug: string };
@@ -86,6 +87,19 @@ export default async function PostPage({ params }: PostProps) {
 
   return (
     <main className="mx-auto max-w-3xl px-6 py-16">
+      {data.image && (
+        <div className="relative mb-6 aspect-[16/9] w-full overflow-hidden rounded-2xl ring-1 ring-gray-200/70 dark:ring-gray-800/60">
+          <Image
+            src={data.image}
+            alt={data.title}
+            fill
+            className="object-cover"
+            sizes="(min-width: 1024px) 768px, 100vw"
+            priority
+          />
+        </div>
+      )}
+
       <h1 className="text-4xl font-bold mb-2">{data.title}</h1>
       <p className="text-gray-500 text-sm mb-8">{data.date}</p>
 

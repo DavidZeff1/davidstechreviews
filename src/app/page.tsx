@@ -2,47 +2,106 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import Link from "next/link";
+import Image from "next/image";
+import Hero from "../app/components/hero";
 
 interface PostMeta {
+  slug: string;
   title: string;
   date: string;
-  slug: string;
+  description?: string;
+  image?: string;
 }
 
 export default function Home() {
   const postsDir = path.join(process.cwd(), "content/posts");
   const files = fs.readdirSync(postsDir);
 
-  const posts: PostMeta[] = files.map((filename) => {
-    const filePath = path.join(postsDir, filename);
-    const fileContents = fs.readFileSync(filePath, "utf8");
-    const { data } = matter(fileContents);
-    return {
-      slug: filename.replace(/\.mdx?$/, ""),
-      title: data.title as string,
-      date: data.date as string,
-    };
-  });
+  const posts: PostMeta[] = files
+    .map((filename) => {
+      const filePath = path.join(postsDir, filename);
+      const raw = fs.readFileSync(filePath, "utf8");
+      const { data, content } = matter(raw);
+
+      // simple excerpt fallback from content
+      const excerpt =
+        (data.description as string) ||
+        content
+          .replace(/[#>*_\-\[\]\(\)`]/g, " ")
+          .slice(0, 140)
+          .trim() + "…";
+
+      return {
+        slug: filename.replace(/\.mdx?$/, ""),
+        title: data.title as string,
+        date: data.date as string,
+        description: excerpt,
+        image: (data.image as string) || "/images/hero.png",
+      };
+    })
+    .sort((a, b) => +new Date(b.date) - +new Date(a.date));
 
   return (
-    <main className="mx-auto max-w-3xl px-6 py-16">
-      <h1 className="text-4xl font-bold mb-6">Affiliate Blog</h1>
-      <ul className="space-y-4">
-        {posts.map((post) => (
-          <li
-            key={post.slug}
-            className="p-4 border rounded-xl hover:bg-gray-50"
-          >
+    <>
+      <Hero />
+
+      <main className="mx-auto max-w-6xl px-6 py-12">
+        <h2 className="mb-6 text-2xl font-bold">Latest Reviews & Guides</h2>
+
+        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          {posts.map((post) => (
             <Link
+              key={post.slug}
               href={`/posts/${post.slug}`}
-              className="text-xl font-semibold"
+              className="group overflow-hidden rounded-2xl border ring-1 ring-gray-200/70 transition hover:shadow-lg dark:ring-gray-800/60"
             >
-              {post.title}
+              <div className="relative h-48 w-full overflow-hidden">
+                <Image
+                  src={post.image!}
+                  alt={post.title}
+                  fill
+                  className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  sizes="(min-width:1024px) 400px, 100vw"
+                />
+                <span className="absolute right-3 top-3 rounded-full bg-white/90 px-2 py-1 text-xs text-gray-800 shadow-sm dark:bg-black/60 dark:text-gray-200">
+                  {new Date(post.date).toLocaleDateString()}
+                </span>
+              </div>
+
+              <div className="p-4">
+                <h3 className="text-lg font-semibold group-hover:text-blue-600">
+                  {post.title}
+                </h3>
+                <p className="mt-2 line-clamp-3 text-sm text-gray-600 dark:text-gray-300">
+                  {post.description}
+                </p>
+
+                <div className="mt-4">
+                  <span className="inline-flex items-center gap-1 text-sm font-medium text-blue-600 group-hover:gap-2 transition-all">
+                    Read review
+                    <svg
+                      aria-hidden="true"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      className="translate-y-[1px]"
+                    >
+                      <path
+                        d="M5 12h12M13 5l7 7-7 7"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </span>
+                </div>
+              </div>
             </Link>
-            <p className="text-gray-500 text-sm">{post.date}</p>
-          </li>
-        ))}
-      </ul>
-    </main>
+          ))}
+        </div>
+      </main>
+    </>
   );
 }
