@@ -105,3 +105,41 @@ body {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
+/* Card micro-interactions */
+@keyframes arrow-nudge {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(2px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.card-int {
+  transition: transform 200ms ease, box-shadow 200ms ease,
+    border-color 200ms ease;
+  will-change: transform;
+}
+.card-int:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
+  border-color: rgba(59, 130, 246, 0.35); /* subtle blue */
+}
+.card-int:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.35);
+  transform: translateY(-1px);
+}
+.card-int .cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+}
+.card-int:hover .cta .arrow {
+  animation: arrow-nudge 600ms ease-in-out;
+}

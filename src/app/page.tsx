@@ -53,21 +53,21 @@ export default function Home() {
             <Link
               key={post.slug}
               href={`/posts/${post.slug}`}
-              className="group overflow-hidden rounded-2xl border ring-1 ring-gray-200/70 transition hover:shadow-lg dark:ring-gray-800/60"
+              className="card-int group overflow-hidden rounded-2xl border ring-1 ring-gray-200/70 transition hover:shadow-lg dark:ring-gray-800/60"
             >
               <div className="relative h-48 w-full overflow-hidden">
                 <Image
-                  src={post.image!}
+                  src={post.image || "/images/hero.png"}
                   alt={post.title}
                   fill
                   className="object-cover transition-transform duration-300 group-hover:scale-105"
                   sizes="(min-width:1024px) 400px, 100vw"
+                  priority={false}
                 />
                 <span className="absolute right-3 top-3 rounded-full bg-white/90 px-2 py-1 text-xs text-gray-800 shadow-sm dark:bg-black/60 dark:text-gray-200">
                   {new Date(post.date).toLocaleDateString()}
                 </span>
               </div>
-
               <div className="p-4">
                 <h3 className="text-lg font-semibold group-hover:text-blue-600">
                   {post.title}
@@ -75,16 +75,15 @@ export default function Home() {
                 <p className="mt-2 line-clamp-3 text-sm text-gray-600 dark:text-gray-300">
                   {post.description}
                 </p>
-
                 <div className="mt-4">
-                  <span className="inline-flex items-center gap-1 text-sm font-medium text-blue-600 group-hover:gap-2 transition-all">
+                  <span className="cta text-blue-600">
                     Read review
                     <svg
                       aria-hidden="true"
                       width="16"
                       height="16"
                       viewBox="0 0 24 24"
-                      className="translate-y-[1px]"
+                      className="arrow translate-y-[1px]"
                     >
                       <path
                         d="M5 12h12M13 5l7 7-7 7"

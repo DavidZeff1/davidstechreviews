@@ -5,6 +5,7 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import remarkGfm from "remark-gfm";
 import type { Metadata } from "next";
 import Image from "next/image";
+import TopPick from "@/app/components/TopPick";
 
 interface PostProps {
   params: { slug: string };
@@ -84,7 +85,7 @@ export default async function PostPage({ params }: PostProps) {
   const filePath = path.join(postsDir, `${params.slug}.mdx`);
   const fileContents = fs.readFileSync(filePath, "utf8");
   const { data, content } = matter(fileContents);
-
+  const mdxComponents = { TopPick };
   return (
     <main className="mx-auto max-w-3xl px-6 py-16">
       {data.image && (
@@ -107,6 +108,7 @@ export default async function PostPage({ params }: PostProps) {
         <MDXRemote
           source={content}
           options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }}
+          components={mdxComponents}
         />
       </article>
     </main>
