@@ -11,7 +11,43 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "David's Tech Reviews",
-  description: "Honest reviews of laptops, gadgets, and software.",
+  description:
+    "Honest reviews of laptops, gadgets, and software for students and professionals.",
+  keywords: [
+    "laptop reviews",
+    "student tech 2025",
+    "budget gadgets",
+    "Amazon product reviews",
+    "David's Tech Reviews",
+  ],
+  openGraph: {
+    title: "David's Tech Reviews",
+    description:
+      "Honest reviews of laptops, gadgets, and software for students and professionals.",
+    url: "https://davidstechreviews.vercel.app",
+    siteName: "David's Tech Reviews",
+    images: [
+      {
+        url: "https://davidstechreviews.vercel.app/og-image.png", // we can create this later
+        width: 1200,
+        height: 630,
+        alt: "David's Tech Reviews Logo",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "David's Tech Reviews",
+    description: "Honest reviews of laptops, gadgets, and software.",
+    images: ["https://davidstechreviews.vercel.app/og-image.png"],
+    creator: "@yourTwitterHandle", // optional
+  },
+  metadataBase: new URL("https://davidstechreviews.vercel.app"),
+  alternates: {
+    canonical: "https://davidstechreviews.vercel.app",
+  },
 };
 
 export default function RootLayout({

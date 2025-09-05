@@ -2,26 +2,55 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import { MDXRemote } from "next-mdx-remote/rsc";
-import type { MDXComponents } from "mdx/types"; // ✅ brings correct type for components
-
-// Define your custom MDX components with proper typing
-const components: MDXComponents = {
-  h1: (props) => <h1 className="text-4xl font-bold mb-4" {...props} />,
-  p: (props) => <p className="mb-4 leading-relaxed" {...props} />,
-  // add more overrides if you want
-};
+import remarkGfm from "remark-gfm";
+import type { Metadata } from "next";
 
 interface PostProps {
-  params: {
-    slug: string;
+  params: { slug: string };
+}
+
+// ✅ Generate SEO metadata dynamically from frontmatter
+export async function generateMetadata({
+  params,
+}: PostProps): Promise<Metadata> {
+  const postsDir = path.join(process.cwd(), "content/posts");
+  const filePath = path.join(postsDir, `${params.slug}.mdx`);
+  const fileContents = fs.readFileSync(filePath, "utf8");
+  const { data } = matter(fileContents);
+
+  return {
+    title: data.title || "David's Tech Reviews",
+    description:
+      data.description || `Read ${data.title} on David's Tech Reviews.`,
+    openGraph: {
+      title: data.title,
+      description:
+        data.description || `Read ${data.title} on David's Tech Reviews.`,
+      url: `https://davidstechreviews.vercel.app/posts/${params.slug}`,
+      siteName: "David's Tech Reviews",
+      images: [
+        {
+          url: "/og-image.png", // fallback image
+          width: 1200,
+          height: 630,
+          alt: data.title,
+        },
+      ],
+      type: "article",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: data.title,
+      description:
+        data.description || `Read ${data.title} on David's Tech Reviews.`,
+      images: ["/og-image.png"],
+    },
   };
 }
 
 export default async function PostPage({ params }: PostProps) {
-  const { slug } = await params;
-
   const postsDir = path.join(process.cwd(), "content/posts");
-  const filePath = path.join(postsDir, `${slug}.mdx`);
+  const filePath = path.join(postsDir, `${params.slug}.mdx`);
 
   const fileContents = fs.readFileSync(filePath, "utf8");
   const { data, content } = matter(fileContents);
@@ -31,8 +60,11 @@ export default async function PostPage({ params }: PostProps) {
       <h1 className="text-4xl font-bold mb-2">{data.title}</h1>
       <p className="text-gray-500 text-sm mb-8">{data.date}</p>
 
-      <article className="prose prose-lg">
-        <MDXRemote source={content} components={components} />
+      <article className="prose prose-lg max-w-none dark:prose-invert">
+        <MDXRemote
+          source={content}
+          options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }}
+        />
       </article>
     </main>
   );
