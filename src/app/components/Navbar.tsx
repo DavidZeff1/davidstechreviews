@@ -13,18 +13,23 @@ export default function Navbar() {
 
         {/* Nav links */}
         <div className="space-x-6 text-sm font-medium">
-          <Link href="/" className="hover:underline">
-            Home
-          </Link>
-          <Link href="/contact" className="hover:underline">
-            Contact
-          </Link>
-          <Link href="/privacy-policy" className="hover:underline">
-            Privacy
-          </Link>
-          <Link href="/disclaimer" className="hover:underline">
-            Disclaimer
-          </Link>
+          <div className="space-x-6 text-sm font-medium">
+            <Link href="/" className="hover:underline">
+              Home
+            </Link>
+            <Link href="/reviews" className="hover:underline">
+              Reviews
+            </Link>
+            <Link href="/contact" className="hover:underline">
+              Contact
+            </Link>
+            <Link href="/privacy-policy" className="hover:underline">
+              Privacy
+            </Link>
+            <Link href="/disclaimer" className="hover:underline">
+              Disclaimer
+            </Link>
+          </div>
         </div>
       </nav>
     </header>
